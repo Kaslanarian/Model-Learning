@@ -9,7 +9,7 @@ find(logical) # 查找元素
 ```
 
 ```matlab
->>>save mydata var1 var2
+>>>save mydata var1 var2 
 >>>load mydata # 可直接使用var1, var2,或者直接load("mydata.mat")
 ```
 
@@ -78,6 +78,8 @@ zeros(n), zeros(m, n), zeros(size(A))
 ones(n), 
 eye(n)
 rand(n) # 0~1
+randi(n, a, b) % a*b矩阵，元素为1~n随机
+randi([m, n], a, b)
 randn(n) # 均值为0，方差为1的正态分布
 diag(A) # 提取主对角线元素
 diag(A, k)
@@ -239,6 +241,7 @@ std(A, flag, dim) # flag=0:样本标准差(/n-1)->默认，=1:总体标准差(/n
 
 corrcoef(A) # 相关系数矩阵，A(i,j)是A第i，j列的相关系数
 corrcoef(X, Y) # X，Y是向量算X和Y的相关系数
+[R, P] = corrcoef(A) # P是每个相关系数的p值
 
 sort(X) #升序排序
 [Y, I] = sort(A, dim, mode) # mode=ascend/descend
@@ -332,3 +335,8 @@ lb = [0; 0];
 option = optimset('Display', 'off');
 [xmin, fmin] = fmincon(f, x0, A, b, [], [], lb, [], [], option)
 ```
+
+```matlab
+y = tpdf(x, n) # 自由度为n的t分布概率密度函数
+```
+
