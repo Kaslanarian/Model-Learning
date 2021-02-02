@@ -338,5 +338,6 @@ option = optimset('Display', 'off');
 
 ```matlab
 y = tpdf(x, n) # 自由度为n的t分布概率密度函数
+normcdf() #正态分布累计概率密度
 ```
 
