@@ -661,7 +661,7 @@ $$
 
 显然后者比前者更方便；
 
-求解方法：非线性模型，用极大似然估计(MLE)求出$\hat\beta$
+求解方法：非线性模型，用极大似然估计($MLE$)求出$\hat\beta$
 
 ##### SPSS求解逻辑回归
 
@@ -814,11 +814,13 @@ $$
 $$
 $J$也被成为聚合系数，显然$J(n)=0$，图像转折点就是最优类别数；
 
-画图：选择[SPSS实现结果](system-cluster-iris.spv)中的“集中计划”的“系数”列，该列从后往前就是肘部图:<img src="elbow.png">
+画图：选择[SPSS实现结果](system-cluster-iris.spv)中的“集中计划”的“系数”列，该列从后往前就是肘部图:
+<img src="Pictures/elbow.png">
 
 从3开始下降趋缓，所以选择分为三类；
 
-当指标个数为2，3时，可以画出聚类示意图：<img src='output.png'>
+当指标个数为2，3时，可以画出聚类示意图：
+<img src='Pictures/output.png'>
 
 ```python
 import pandas as pd
@@ -842,7 +844,7 @@ ax.scatter(x, y, z, c=data.species)
 plt.savefig('iris_species_scatter.png')
 ```
 
-<img src='iris_species_scatter.png'>
+<img src='Pictures/iris_species_scatter.png'>
 
 ### DBSCAN算法
 
