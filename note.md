@@ -8,7 +8,7 @@
 
 |           | 指标权重 | 方案1 | 方案2 | ... |
 | --------- | -------- | ----- | ----- | --- |
-| **指标1** |          |       |       |     | 
+| **指标1** |          |       |       |     |
 | **指标2** |          |       |       |     |
 | **...**   |          |       |       |     |
 |           |          |       |       |     |
@@ -471,7 +471,7 @@ y=\vec\beta'\vec x+\mu
 $$
 其中$\mu$扰动项与$\vec x$都不想关，则称该模型具有外生性；否则具有内生性(估计不准确，不满足无偏性和一致性)
 
-用$\mu$和$x$的相关系数来衡量内生性:[一个蒙特卡洛模拟](endogenous.m)
+用$\mu$和$x$的相关系数来衡量内生性:[一个蒙特卡洛模拟](MatlabCode/endogenous.m)
 
 但外生性要求过高，因此弱化条件，将解释变量分为核心解释变量与控制变量：
 
@@ -616,9 +616,9 @@ In STATA:`stepwise regress y x1 x2 ...xk, pe(#1)/pr(#2)`, #1和#2表示显著性
 
 [绘图网站](https://csacademy.com/app/graph_editor/)
 
-[MATLAB中绘图语法](Graph.m)
+[MATLAB中绘图语法](MatlabCode/Graph.m)
 
-[MATLAB求解最短路径](ShortestPath.m)
+[MATLAB求解最短路径](MatlabCode/ShortestPath.m)
 
 找到给定范围内所有的点:
 
@@ -740,7 +740,7 @@ $$
 
 `分析->分类->K均值聚类->保存->全部勾选->选项->勾选每个个案的聚类信息`
 
-[分类结果](k-mean-iris.spv)
+[分类结果](SPSSdata/k-mean-iris.spv)
 
 ### 讨论
 
@@ -800,7 +800,7 @@ $$
 
 #### SPSS实现系统聚类
 
-[SPSS实现结果](system-cluster-iris.spv)
+[SPSS实现结果](SPSSdata/system-cluster-iris.spv)
 
 ### 肘部法则
 
@@ -815,7 +815,7 @@ $$
 $$
 $J$也被成为聚合系数，显然$J(n)=0$，图像转折点就是最优类别数；
 
-画图：选择[SPSS实现结果](system-cluster-iris.spv)中的“集中计划”的“系数”列，该列从后往前就是肘部图:
+画图：选择[SPSS实现结果](SPSSdata/system-cluster-iris.spv)中的“集中计划”的“系数”列，该列从后往前就是肘部图:
 
 <img src="Pictures/elbow.png">
 
