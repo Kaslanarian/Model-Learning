@@ -1,5 +1,9 @@
 # %%
-import pandas as pd
 import numpy as np
-data = pd.read_excel('ExcelData/iris.xlsx')
+A = np.matrix([
+    [4, 0, 1, 6],
+    [0, 0, 5, 1],
+    [2, 1, 3, 2],
+])
+np.linalg.svd(A)
 # %%

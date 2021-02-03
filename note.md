@@ -822,6 +822,7 @@ $J$也被成为聚合系数，显然$J(n)=0$，图像转折点就是最优类别
 从3开始下降趋缓，所以选择分为三类；
 
 当指标个数为2，3时，可以画出聚类示意图：
+
 <img src='Pictures/output.png'>
 
 ```python
@@ -941,3 +942,72 @@ plt.savefig('iris_species_scatter.png')
 6. 温特加法模型，含有线性趋势和稳定的季节成分；
 
 7. 温特乘法模型，含有线性趋势和不稳定的季节成分；
+
+## SVD和图形处理
+
+三个引理：
+
+1. $AB$和$BA$的非零特征值完全相同
+
+2. 实对称矩阵特征值一定为实数，且一定可以相似对角化，通过施密特正交化变成正交矩阵
+
+3. $AA^\top$一定是半正定矩阵，因此特征值不可能为负
+
+奇异值分解：
+$$
+A_{m\times n}=U_{m\times m}\Sigma_{m\times n}V^\top_{n\times n}
+$$
+其中$U$和$V$都是正交矩阵，且$\Sigma$是奇异值矩阵，其主对角线元素从大到小排列且其余位置元素为0
+
+1. 算$U$:
+$$
+AA^\top=U\varLambda_1U^\top(U是正交矩阵)
+$$
+
+2. 算$V$:
+$$
+A^\top A=V\varLambda_2V^\top(V是正交矩阵)
+$$
+
+3. 算$\Sigma$:
+$$
+AA^\top的非零特征值开根号，就是奇异值
+$$
+
+### 利用SVD对数据进行降维
+
+$$
+\begin{aligned}
+A &= [U_1\;\;U_2\;\;U_3]
+\begin{bmatrix}
+    \sqrt{\lambda_1}&0&0&0\\
+    0&\sqrt{\lambda_2}&0&0\\
+    0&0&\sqrt{\lambda_3}&0
+\end{bmatrix}
+\begin{bmatrix}
+    V_1^\top\\
+    V_2^\top\\
+    V_3^\top\\
+    V_4^\top\\
+\end{bmatrix}\\
+&=[\sqrt{\lambda_1}U_1\;\;\sqrt{\lambda_2}U_2\;\sqrt{\lambda_3}U_3\;\;0]
+\begin{bmatrix}
+    V_1^\top\\
+    V_2^\top\\
+    V_3^\top\\
+    V_4^\top\\
+\end{bmatrix}\\
+&=\sum_{i=1}^{3}\sqrt{\lambda_i}U_iV_i^\top\\
+&\eqsim\sum_{i=1}^{2}\sqrt{\lambda_i}U_iV_i^\top
+\end{aligned}
+$$
+相当于我们只使用了2个奇异值，所以矩阵也可以删列，从而实现减小$rank$，也就是降维
+
+保留原矩阵的特征比例：
+$$
+\dfrac{\sum_{i=1}^{n-1}\sqrt{\lambda_i}}{\sum_{i=1}^n\sqrt{\lambda_i}}
+$$
+```matlab
+[U, S, V] = svd(A)
+B  = U(:, 1:n-1) * S(1:n-1, 1:n-1) *V(:1:n-1)
+```
