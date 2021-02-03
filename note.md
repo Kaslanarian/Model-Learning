@@ -1,5 +1,7 @@
 [toc]
 
+# 建模笔记
+
 ## 层次分析
 
 ==解决评价类问题==，可用打分解决，因素`<->`权重
@@ -60,7 +62,7 @@ $$
 $$
 **特征值法**：求最大特征值对应的特征向量进行归一化就是各项权重（使用最多）
 
- ## 优劣解距离法(TOPSIS)
+## 优劣解距离法(TOPSIS)
 
 若只有一个指标：构造计算评分的公式：
 $$
@@ -174,14 +176,14 @@ $$
 判断拟合好坏：
 
 1. 总体平方和$SST$：$SST=\sum_{i=1}^n(y_i-\bar y)^2$
-2. 误差平方和$SSE$：$SSE=\sum_{i=1}^n(y_i-\hat y_i)^2$
-3. 回归平方和$SSR$：$SSR=\sum_{i=1}^n(\hat y_i-\bar y)^2$
 
+2. 误差平方和$SSE$：$SSE=\sum_{i=1}^n(y_i-\hat y_i)^2$
+
+3. 回归平方和$SSR$：$SSR=\sum_{i=1}^n(\hat y_i-\bar y)^2$
 我们有:
 $$
 SST=SSE+SSR
 $$
-
 4. 拟合优度：$0\le R^2=\dfrac{SSR}{SST}=\dfrac{SST-SSE}{SST}\le 1$
 
 $R^2$越接近1，拟合越好，==$R^2$只能用于拟合函数是线性函数的时候==，线性函数和其他非线性函数比较拟合好坏可以直接看$SSE$
@@ -691,3 +693,167 @@ Fisher也可以用于多分类，只需要改变定义范围即可（即找多�
 逻辑回归也可推广多分类，只需要将$Sigmoid$函数推广至$Softmax$函数；
 
 `SPSS: 分析->回归->多元回归`
+
+## 聚类模型
+
+将样本划分为由类似对象组成的多个类的过程；
+
+### K-means聚类算法
+
+1. 指定需要划分的簇数$k$;
+
+2. 随机选择$k$个数据对象作为初始的聚类中心（也可以不是样本点）
+
+3. 计算各点到着$k$个聚类中心的距离，将点归类为距离最短的聚类中心对应的类
+
+4. 调整新类并重新计算中心
+
+5. 循环第三，四步直到收敛或者达到指定迭代步数
+
+6. 程序结束
+
+[可视化网站](https://www.naftaliharris.com/blog/visualizing-k-means-clustering/)
+
+推荐画流程图，防止查重
+
+缺点：
+
+1. 要求用户先给出$k$;
+
+2. 对初始值敏感；
+
+3. 对鼓励点数据敏感
+
+### K-means++算法
+
+1. 随机选一个样本作为第一个聚类中心
+
+2. 计算每个样本与当前已有聚类中心的最小距离，这个值越大，表示被选取作为聚类中心的概率越大；最后用轮盘法选出下一个聚类中心，假设$i$为中心，$p_j$表示$j$点为下一个中心的概率:
+$$
+p_j=\dfrac{d_{ij}}{\sum_{i\neq k}^n d_{ik}}
+$$
+
+3. 重复步骤2，直到选出$K$个聚类中心。选出初始点之后，再调用$K-means$算法
+
+### SPSS实现K-means算法
+
+`分析->分类->K均值聚类->保存->全部勾选->选项->勾选每个个案的聚类信息`
+
+[分类结果](k-mean-iris.spv)
+
+### 讨论
+
+1. $K$的取值如何决定？——自己看；
+
+2. 数据量纲问题，会导致“距离”没有意义——标准化:
+`分析->描述统计->描述->将标准化值另存为变量`
+$$
+z_i=\dfrac{x_i-\bar x}{\sigma_x}
+$$
+
+### 系统层次聚类
+
+常用样本距离：
+
+1. 绝对值距离(1-范数)；
+
+2. 欧氏距离(2-范数)；
+
+3. 闵可夫斯基距离(q范数)；
+
+4. 切比雪夫距离($\infty$范数);
+
+5. 马氏距离:$d(x,y)=(x-y)'\Sigma^{-1}(x-y)$
+
+常用指标距离(用于指标的分类):
+
+1. 相关系数$\rho$;
+
+2. 夹角余弦$r$;
+
+常用类间距:
+
+1. 最短距离：两类中最近点距离；
+
+2. 最长距离；
+
+3. 组间平均连接法：
+
+4. 组内平均连接法；
+
+5. 重心法；
+
+系统聚类流程：
+
+1. 计算$n$个样本两两间距$d_{ij}$
+
+2. 构造$n$各类；
+
+3. 合并距离最近的两类为一新类；
+
+4. 计算新类与当前各类距离
+
+5. 类的个数若不为1，返回第三步；否则继续；
+
+6. 画聚类图(树状图)，决定分类个数和类；
+
+#### SPSS实现系统聚类
+
+[SPSS实现结果](system-cluster-iris.spv)
+
+### 肘部法则
+
+通过图形$(J-K曲线)$大致估计最优聚类数量；
+
+各个类畸变程度之和：该类重心与内部成员位置距离的平方和；
+$$
+\begin{aligned}
+第k个类的畸变程度：&\sum_{i\in C_{k}}|x_i-u_k|^2\\
+所有k类的畸变程度：&J=\sum_{k=1}^K\sum_{i\in C_k}|x_i-u_k|^2
+\end{aligned}
+$$
+$J$也被成为聚合系数，显然$J(n)=0$，图像转折点就是最优类别数；
+
+画图：选择[SPSS实现结果](system-cluster-iris.spv)中的“集中计划”的“系数”列，该列从后往前就是肘部图:<img src="elbow.png">
+
+从3开始下降趋缓，所以选择分为三类；
+
+当指标个数为2，3时，可以画出聚类示意图：<img src='output.png'>
+
+```python
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+data = pd.read_excel('iris.xlsx').drop(axis=1, columns='Unnamed: 0')
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+x, y, z = data['petal_length'], data['sepal_length'], data['sepal_width']
+
+ax.set_xlabel("petal_length")
+ax.set_ylabel("sepal_length")
+ax.set_zlabel("sepal_width")
+
+ax.scatter(x, y, z, c=data.species)
+
+plt.savefig('iris_species_scatter.png')
+```
+
+<img src='iris_species_scatter.png'>
+
+### DBSCAN算法
+
+全称：具有噪声的基于密度的聚类方法（之前算法是基于距离的）
+
+算法将点分为三类：
+
+1. 核心点，在半径$\epsilon$内含有超过$MinPts$的点；
+   
+2. 边界点，在半径$\epsilon$内点的数量小于$MinPts$，但落在核心点的邻域内；
+
+3. 噪音点，既不是核心也不是边界的点。
+
+建议：先看，如果形状很'DBSCAN'且只有两个指标，那就用DBSACAN；其余情况就系统聚类；
